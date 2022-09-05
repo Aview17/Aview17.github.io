@@ -468,14 +468,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    832
+                    922
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -648,20 +648,11 @@ document<span class="token punctuation">.</span><span class="token function">wri
 </ul>
 <h2 id="5-6-目录"><a href="#5-6-目录" class="headerlink" title="5.6 目录"></a>5.6 目录</h2><p>通过 <code>[TOC]</code> 在文档中插入目录, 如:</p>
 <p>[TOC]</p>
-<h2 id="5-7-时序图与流程图"><a href="#5-7-时序图与流程图" class="headerlink" title="5.7 时序图与流程图"></a>5.7 时序图与流程图</h2><pre class="line-numbers language-sequence"><code class="language-sequence">Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="5-7-时序图与流程图"><a href="#5-7-时序图与流程图" class="headerlink" title="5.7 时序图与流程图"></a>5.7 时序图与流程图</h2><div id="sequence-0"></div>
+
 <p>流程图:</p>
-<pre class="line-numbers language-flow"><code class="language-flow">st=>start: Start
-e=>end
-op=>operation: My Operation
-cond=>condition: Yes or No?
- 
-st->op->cond
-cond(yes)->e
-cond(no)->op
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<div id="flowchart-0" class="flow-chart"></div>
+
 <blockquote>
 <p><strong>提示:</strong> 更多关于时序图与流程图的语法请参考:</p>
 </blockquote>
@@ -678,7 +669,16 @@ cond(no)->op
 <p>$$f(x_1,x_x,\ldots,x_n) &#x3D; x_1^2 + x_2^2 + \cdots + x_n^2 $$</p>
 <p>$$\sum^{j-1}<em>{k&#x3D;0}{\widehat{\gamma}</em>{kj} z_k}$$</p>
 <p>更复杂的公式:<br>$$<br>\begin{eqnarray}<br>\vec\nabla \times (\vec\nabla f) &amp; &#x3D; &amp; 0  \cdots\cdots梯度场必是无旋场\<br>\vec\nabla \cdot(\vec\nabla \times \vec F) &amp; &#x3D; &amp; 0\cdots\cdots旋度场必是无散场\<br>\vec\nabla \cdot (\vec\nabla f) &amp; &#x3D; &amp; {\vec\nabla}^2f\<br>\vec\nabla \times(\vec\nabla \times \vec F) &amp; &#x3D; &amp; \vec\nabla(\vec\nabla \cdot \vec F) - {\vec\nabla}^2 \vec F\<br>\end{eqnarray}<br>$$</p>
-<p>访问 <a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="noopener">MathJax</a> 参考更多使用方法。</p>
+<p>访问 <a href="http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="noopener">MathJax</a> 参考更多使用方法。<script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.27/webfontloader.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.4.1/snap.svg-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script><textarea id="sequence-0-code" style="display: none">Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!</textarea><textarea id="sequence-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12,"theme":"simple"}</textarea><script>  var code = document.getElementById("sequence-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("sequence-0-options").value));  var diagram = Diagram.parse(code);  diagram.drawSVG("sequence-0", options);</script><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">st=>start: Start
+e=>end
+op=>operation: My Operation
+cond=>condition: Yes or No?
+ 
+st->op->cond
+cond(yes)->e
+cond(no)->op</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12,"theme":"simple"}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script></p>
 
                 
             </div>
@@ -827,13 +827,13 @@ cond(no)->op
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/01/MSSQL%E6%94%BB%E5%87%BB%E9%9D%A2/">
+                <a href="/2022/09/05/hello-world/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="MSSQL攻击面">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
                         
-                        <span class="card-title">MSSQL攻击面</span>
+                        <span class="card-title">Hello World</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -844,7 +844,7 @@ cond(no)->op
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-05
                             </span>
                         <span class="publish-author">
                             
