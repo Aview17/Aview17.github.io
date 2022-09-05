@@ -113,4 +113,4 @@ deploy:
   type: git
   repository: https://github.com/Aview17/Aview17.github.io
   branch: main
-  token: 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
+  token: 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
