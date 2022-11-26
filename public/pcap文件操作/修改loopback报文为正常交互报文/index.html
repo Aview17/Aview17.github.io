@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="CVE-2021-4034 Polkit 权限提升, Aview&#39;s Blog">
+    <meta name="keywords" content="修改loopback报文为正常交互报文, Aview&#39;s Blog">
     <meta name="description" content="不过是网安人胡乱做的一场梦罢了">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>CVE-2021-4034 Polkit 权限提升 | Aview&#39;s Blog</title>
+    <title>修改loopback报文为正常交互报文 | Aview&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -321,12 +321,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">CVE-2021-4034 Polkit 权限提升</h1>
+                    <h1 class="description center-align post-title">修改loopback报文为正常交互报文</h1>
                 </div>
             </div>
         </div>
@@ -442,8 +442,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Linux%E6%8F%90%E6%9D%83/">
-                                <span class="chip bg-color">Linux提权</span>
+                            <a href="/tags/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+                                <span class="chip bg-color">pcap文件操作</span>
                             </a>
                         
                     </div>
@@ -454,16 +454,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/" class="post-category">
-                                红队渗透
-                            </a>
-                        
-                            <a href="/categories/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/" class="post-category">
-                                提权
-                            </a>
-                        
-                            <a href="/categories/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/" class="post-category">
-                                Linux提权
+                            <a href="/categories/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="post-category">
+                                pcap文件操作
                             </a>
                         
                     </div>
@@ -475,28 +467,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-09-13
+                    2022-11-26
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-13
+                    2022-11-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    271
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -511,23 +503,135 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>Polkit（PolicyKit）是类Unix系统中一个应用程序级别的工具集，通过定义和审核权限规则，实现不同优先级进程间的通讯。pkexec是Polkit开源应用框架的一部分，可以使授权非特权用户根据定义的策略以特权用户的身份执行命令。</p>
-<p>该漏洞是由于 <code>pkexec</code> 在处理传入参数的逻辑出现问题，导致环境变量被污染，最终交由 <code>pkexec</code> 代码逻辑执行实现客户机权限提升。有普通权限用户的攻击者通过执行漏洞文件，触发越界读写，从而在目标系统上造成权限提升。</p>
-<h1 id="影响范围"><a href="#影响范围" class="headerlink" title="影响范围"></a>影响范围</h1><p>未受影响的版本如下</p>
-<p><img src="/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/getImage.png"></p>
-<h2 id="版本自查"><a href="#版本自查" class="headerlink" title="版本自查"></a>版本自查</h2><pre class="line-numbers language-bash"><code class="language-bash">rpm -qa polkit 			<span class="token comment" spellcheck="true"># CentOS查看命令</span>
-dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查看命令</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>Poc下载链接如下</p>
-<p><a href="https://github.com/berdav/CVE-2021-4034" target="_blank" rel="noopener">C语言版</a></p>
-<p><a href="https://github.com/nikaiw/CVE-2021-4034" target="_blank" rel="noopener">Python版</a></p>
+                <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>​	在日常工作中会涉及到很多回放报文的需求，但是有时候由于各种原因，我们手上拿到的报文只有本地loopback的报文，这种报文在回放时不会被设备识别，所以遇到这种情况我们有两种方式解决：</p>
+<ul>
+<li>针对HTTP请求，可以通过使用BurpSuite等工具将payload重发再次进行抓包</li>
+<li>直接修改loopback报文</li>
+</ul>
+<p>本文描述的是通过修改pcap文件的方式，将loopback包修改为正常通信报文。</p>
+<h1 id="Loop-Back报文与正常报文文件对比"><a href="#Loop-Back报文与正常报文文件对比" class="headerlink" title="Loop Back报文与正常报文文件对比"></a>Loop Back报文与正常报文文件对比</h1><p>最主要的区别有两处</p>
+<ul>
+<li><p>其一是以太网头部的不同，这处的不同还导致了包长度的差异</p>
+<p>loopback报文的头部是<code>02 00 00 00</code>	<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232233045.png" alt="image-20221126232233045"></p>
+<p>而常规报文则是以太网头部以及IPv4标识</p>
+<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232429689.png" alt="image-20221126232429689"></p>
+</li>
+<li><p>其二是loopback pcap文件的文件头中的Type Link为<code>00 00 00 00</code>，而常规pcap文件头中的Type Link为<code>01 00 00 00</code><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127002325816.png" alt="image-20221127002325816"></p>
+</li>
+</ul>
+<h1 id="Loop-Back报文修改位置"><a href="#Loop-Back报文修改位置" class="headerlink" title="Loop Back报文修改位置"></a>Loop Back报文修改位置</h1><ol>
+<li><p>修改loopback的pcap文件头中的Type Link为<code>01 00 00 00</code></p>
+</li>
+<li><p>修改loopback报文中每个包的头部<code>02 00 00 00</code>为以太网头（源MAC + 目的MAC + type IPv4）</p>
+</li>
+<li><p>由于上一步修改了loopback头为以太网头，所以会多出10字节的内容，需要修改Caplen和Len的值（hex表示需要 + a，在以太网头的前 4 + 4 的字节）<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127003919194.png" alt="image-20221127003919194"></p>
+<p>如上面的<code>38 00 00 00 38 00 00 00</code>应改为<code>42 00 00 00 42 00 00 00</code></p>
+</li>
+<li><p>接下来修改IP即可，有需要的也可以改端口，不影响长度</p>
+</li>
+</ol>
 <blockquote>
-<p>C语言版的直接进入执行<code>make</code>命令编译，再执行生成的可执行文件即可</p>
-<p>Python版直接运行脚本即可</p>
+<p>注：由于pcap文件中的每个包都有其长度的标识，所以每个包都需要修改以太网头和长度值</p>
+<p>可以用010Editor直接修改</p>
 </blockquote>
-<p><img src="/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/getImage-16630776808822.png"></p>
-<p>运行结果如下：</p>
-<p><img src="/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/getImage-16630777302294.png"></p>
+<h1 id="python脚本修改"><a href="#python脚本修改" class="headerlink" title="python脚本修改"></a>python脚本修改</h1><h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">from</span> scapy<span class="token punctuation">.</span>all <span class="token keyword">import</span> <span class="token operator">*</span>
+<span class="token keyword">from</span> scapy<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>inet <span class="token keyword">import</span> IP<span class="token punctuation">,</span> TCP
+<span class="token keyword">from</span> scapy<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>l2 <span class="token keyword">import</span> <span class="token operator">*</span>
+
+
+<span class="token keyword">def</span> <span class="token function">gen_eth_pcap</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_mac<span class="token punctuation">,</span> dst_mac<span class="token punctuation">,</span> file_path<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    生成带二层头的新包
+    :param pcap_obj: pcap文件对象
+    :param src_mac: 需要设置的源MAC
+    :param dst_mac: 需要设置的目的MAC
+    :param file_path: 文件输出路径
+    :return: None
+    """</span>
+    eth_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>each_packet<span class="token punctuation">)</span>
+        eth <span class="token operator">=</span> Ether<span class="token punctuation">(</span>src<span class="token operator">=</span>src_mac<span class="token punctuation">,</span> dst<span class="token operator">=</span>dst_mac<span class="token punctuation">)</span><span class="token operator">/</span>IP<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span>TCP<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        eth<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span> <span class="token operator">=</span> each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span>
+        eth<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span> <span class="token operator">=</span> each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>eth<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"-------------------------------------------"</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true"># 写入pcap包</span>
+        eth_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>eth<span class="token punctuation">)</span>
+
+    wrpcap<span class="token punctuation">(</span>file_path<span class="token punctuation">,</span> eth_list<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">change_ip</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_ip<span class="token punctuation">,</span> dst_ip<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    修改pcap包的原目的IP
+    :param pcap_obj: pcap文件对象
+    :param src_ip: 需要修改的源IP
+    :param dst_ip: 需要修改的目的IP
+    :return: 修改后的pcap对象
+    """</span>
+    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
+        each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>src <span class="token operator">=</span> src_ip
+        each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dst <span class="token operator">=</span> dst_ip
+
+    <span class="token keyword">return</span> pcap_obj
+
+
+<span class="token keyword">def</span> <span class="token function">change_port</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_port<span class="token punctuation">,</span> dst_port<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    修改pcap包的原目的端口
+    :param pcap_obj: pcap文件对象
+    :param src_port: 需要修改的源端口
+    :param dst_port: 需要修改的目的端口
+    :return: 修改后的pcap对象
+    """</span>
+    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
+        each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>sport <span class="token operator">=</span> int<span class="token punctuation">(</span>src_port<span class="token punctuation">)</span>
+        each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dport <span class="token operator">=</span> int<span class="token punctuation">(</span>dst_port<span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> pcap_obj
+
+
+<span class="token keyword">def</span> <span class="token function">o</span><span class="token punctuation">(</span>packets<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> data <span class="token keyword">in</span> packets<span class="token punctuation">:</span>
+        s <span class="token operator">=</span> repr<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    file_path_in <span class="token operator">=</span> <span class="token string">"./1.pcap"</span>
+    file_path_out <span class="token operator">=</span> <span class="token string">"./out.pcap"</span>
+    change_src_mac <span class="token operator">=</span> <span class="token string">"00:50:56:C0:00:08"</span>
+    change_dst_mac <span class="token operator">=</span> <span class="token string">"00:0C:29:D5:6C:43"</span>
+    change_src_ip <span class="token operator">=</span> <span class="token string">"192.168.183.1"</span>
+    change_dst_ip <span class="token operator">=</span> <span class="token string">"192.168.183.29"</span>
+    change_src_port <span class="token operator">=</span> <span class="token string">"54617"</span>
+    change_dst_port <span class="token operator">=</span> <span class="token string">"61516"</span>
+
+    pcap <span class="token operator">=</span> rdpcap<span class="token punctuation">(</span>file_path_in<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 先进行IP和端口的变换，因为不影响长度校验</span>
+    pcap <span class="token operator">=</span> change_ip<span class="token punctuation">(</span>pcap<span class="token punctuation">,</span> change_src_ip<span class="token punctuation">,</span> change_dst_ip<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># pcap = change_port(pcap, change_src_port, change_dst_port)</span>
+
+    <span class="token comment" spellcheck="true"># 进行MAC地址转换</span>
+    <span class="token comment" spellcheck="true"># 此处用的方案是构建一个有二层头的包，将loopback的IP、TCP层之后放到新的包中</span>
+    gen_eth_pcap<span class="token punctuation">(</span>pcap<span class="token punctuation">,</span> change_src_mac<span class="token punctuation">,</span> change_dst_mac<span class="token punctuation">,</span> file_path_out<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><blockquote>
+<p>这里用的python的scapy插件对pcap文件进行操作，之前尝试使用过dpkt，结果发现不能满足要求，原因是dpkt识别pcap文件时会直接将每个数据包的前12个字节识别成源目的mac，这样会导致解析loopback报文时直接失败，而scapy则可以识别出loopback头部</p>
+</blockquote>
+<p>原本是想用scapy将上述修改的地方全部做修改的，但是发现在修改pcap的Type Link和Loopback头部时还是难以修改，于是另辟蹊径：</p>
+<ol>
+<li>将原pcap包读入scapy的相应对象中（如TCP对象）</li>
+<li>修改这个对象的IP值127.0.0.1为我们想改的原目的IP</li>
+<li>重新构造一个TCP对象，且初始化时将我们想改的源目的MAC初始化到新对象中</li>
+<li>将原来的pcap报文对象的IP层数据和TCP层数据直接替换到新对象中</li>
+<li>将新对象写入新pcap</li>
+</ol>
+<p>结果对比如下：</p>
+<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127010107297.png" alt="image-20221127010107297"></p>
+<p>​		</p>
 
                 
             </div>
@@ -554,7 +658,7 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://aview17.github.io/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/">https://aview17.github.io/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/</a>
+                    <a href="https://aview17.github.io/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/">https://aview17.github.io/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -592,8 +696,8 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Linux%E6%8F%90%E6%9D%83/">
-                                    <span class="chip bg-color">Linux提权</span>
+                                <a href="/tags/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+                                    <span class="chip bg-color">pcap文件操作</span>
                                 </a>
                             
                         </div>
@@ -637,9 +741,10 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/">
                     <div class="card-image">
@@ -657,9 +762,9 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-11-26
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-26
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -672,6 +777,7 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -687,7 +793,7 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
                 <a href="/%E7%BA%A2%E9%98%9F%E6%B8%97%E9%80%8F/%E6%8F%90%E6%9D%83/Linux%E6%8F%90%E6%9D%83/CVE-2021-4034-Polkit-%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87/">
@@ -729,7 +835,6 @@ dpkg -l policykit-1 	<span class="token comment" spellcheck="true"># Ubuntu查�
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
