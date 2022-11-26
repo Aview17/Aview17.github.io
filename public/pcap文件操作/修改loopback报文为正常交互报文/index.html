@@ -512,11 +512,11 @@
 <h1 id="Loop-Back报文与正常报文文件对比"><a href="#Loop-Back报文与正常报文文件对比" class="headerlink" title="Loop Back报文与正常报文文件对比"></a>Loop Back报文与正常报文文件对比</h1><p>最主要的区别有两处</p>
 <ul>
 <li><p>其一是以太网头部的不同，这处的不同还导致了包长度的差异</p>
-<p>loopback报文的头部是<code>02 00 00 00</code>	<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232233045.png" alt="image-20221126232233045"></p>
+<p>loopback报文的头部是<code>02 00 00 00</code>	<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232233045.png"></p>
 <p>而常规报文则是以太网头部以及IPv4标识</p>
-<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232429689.png" alt="image-20221126232429689"></p>
+<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221126232429689.png"></p>
 </li>
-<li><p>其二是loopback pcap文件的文件头中的Type Link为<code>00 00 00 00</code>，而常规pcap文件头中的Type Link为<code>01 00 00 00</code><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127002325816.png" alt="image-20221127002325816"></p>
+<li><p>其二是loopback pcap文件的文件头中的Type Link为<code>00 00 00 00</code>，而常规pcap文件头中的Type Link为<code>01 00 00 00</code><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127002325816.png"></p>
 </li>
 </ul>
 <h1 id="Loop-Back报文修改位置"><a href="#Loop-Back报文修改位置" class="headerlink" title="Loop Back报文修改位置"></a>Loop Back报文修改位置</h1><ol>
@@ -524,7 +524,7 @@
 </li>
 <li><p>修改loopback报文中每个包的头部<code>02 00 00 00</code>为以太网头（源MAC + 目的MAC + type IPv4）</p>
 </li>
-<li><p>由于上一步修改了loopback头为以太网头，所以会多出10字节的内容，需要修改Caplen和Len的值（hex表示需要 + a，在以太网头的前 4 + 4 的字节）<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127003919194.png" alt="image-20221127003919194"></p>
+<li><p>由于上一步修改了loopback头为以太网头，所以会多出10字节的内容，需要修改Caplen和Len的值（hex表示需要 + a，在以太网头的前 4 + 4 的字节）<img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127003919194.png"></p>
 <p>如上面的<code>38 00 00 00 38 00 00 00</code>应改为<code>42 00 00 00 42 00 00 00</code></p>
 </li>
 <li><p>接下来修改IP即可，有需要的也可以改端口，不影响长度</p>
@@ -630,7 +630,7 @@
 <li>将新对象写入新pcap</li>
 </ol>
 <p>结果对比如下：</p>
-<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127010107297.png" alt="image-20221127010107297"></p>
+<p><img src="/pcap%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/%E4%BF%AE%E6%94%B9loopback%E6%8A%A5%E6%96%87%E4%B8%BA%E6%AD%A3%E5%B8%B8%E4%BA%A4%E4%BA%92%E6%8A%A5%E6%96%87/image-20221127010107297.png"></p>
 <p>​		</p>
 
                 
