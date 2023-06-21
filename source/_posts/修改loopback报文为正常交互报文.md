@@ -77,9 +77,15 @@ def gen_eth_pcap(pcap_obj, src_mac, dst_mac, file_path):
     :return: None
     """
     eth_list = []
+    # 取第一个包的源端口为发起握手的端口
+    handshaking_port = pcap_obj[0]['TCP'].sport
+
     for each_packet in pcap_obj:
         print(each_packet)
-        eth = Ether(src=src_mac, dst=dst_mac)/IP()/TCP()
+        if each_packet['TCP'].sport == handshaking_port:
+            eth = Ether(src=src_mac, dst=dst_mac)/IP()/TCP()
+        else:
+            eth = Ether(src=dst_mac, dst=src_mac)/IP()/TCP()
         eth['IP'] = each_packet['IP']
         eth['TCP'] = each_packet['TCP']
         print(eth)
@@ -98,9 +104,20 @@ def change_ip(pcap_obj, src_ip, dst_ip):
     :param dst_ip: 需要修改的目的IP
     :return: 修改后的pcap对象
     """
+    # 重要！！！
+    # 这里需要利用端口未改变的特征来修改源目的IP，不然会出现所有报文都是唯一的 src->dst 的情况
+    # 如所有报文都是 192.168.1.1 -> 192.168.1.2
+
+    # 取第一个包的源端口为发起握手的端口
+    handshaking_port = pcap_obj[0]['TCP'].sport
+
     for each_packet in pcap_obj:
-        each_packet['IP'].src = src_ip
-        each_packet['IP'].dst = dst_ip
+        if each_packet['TCP'].sport == handshaking_port:
+            each_packet['IP'].src = src_ip
+            each_packet['IP'].dst = dst_ip
+        else:
+            each_packet['IP'].src = dst_ip
+            each_packet['IP'].dst = src_ip
 
     return pcap_obj
 
@@ -113,28 +130,28 @@ def change_port(pcap_obj, src_port, dst_port):
     :param dst_port: 需要修改的目的端口
     :return: 修改后的pcap对象
     """
+    handshaking_port = pcap_obj[0]['TCP'].sport
+
     for each_packet in pcap_obj:
-        each_packet['TCP'].sport = int(src_port)
-        each_packet['TCP'].dport = int(dst_port)
+        if each_packet['TCP'].sport == handshaking_port:
+            each_packet['IP'].sport = int(src_port)
+            each_packet['IP'].dport = int(dst_port)
+        else:
+            each_packet['IP'].sport = int(dst_port)
+            each_packet['IP'].dport = int(src_port)
 
     return pcap_obj
 
 
-def o(packets):
-    for data in packets:
-        s = repr(data)
-        print(s)
-
-
 if __name__ == "__main__":
-    file_path_in = "./1.pcap"
-    file_path_out = "./out.pcap"
-    change_src_mac = "00:50:56:C0:00:08"
-    change_dst_mac = "00:0C:29:D5:6C:43"
-    change_src_ip = "192.168.183.1"
-    change_dst_ip = "192.168.183.29"
-    change_src_port = "54617"
-    change_dst_port = "61516"
+    file_path_in = r"1.pcap"
+    file_path_out = r"out.pcap"
+    change_src_mac = "00:0C:29:54:EB:A2"
+    change_dst_mac = "00:50:56:F7:1E:CA"
+    change_src_ip = "192.168.254.147"
+    change_dst_ip = "192.168.254.148"
+    change_src_port = "49058"
+    change_dst_port = "80"
 
     pcap = rdpcap(file_path_in)
 
@@ -162,7 +179,7 @@ if __name__ == "__main__":
 
 结果对比如下：
 
-![](修改loopback报文为正常交互报文/image-20221127010107297.png)
+![image-20230621102827013](修改loopback报文为正常交互报文/image-20230621102827013.png)
 
 
 

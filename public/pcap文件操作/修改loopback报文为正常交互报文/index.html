@@ -29,7 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<meta name="generator" content="Hexo 7.0.0-rc1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
 <link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
@@ -474,14 +474,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-27
+                    2023-06-20
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.1k
                 </div>
                 
 
@@ -534,90 +534,8 @@
 <p>注：由于pcap文件中的每个包都有其长度的标识，所以每个包都需要修改以太网头和长度值</p>
 <p>可以用010Editor直接修改</p>
 </blockquote>
-<h1 id="python脚本修改"><a href="#python脚本修改" class="headerlink" title="python脚本修改"></a>python脚本修改</h1><h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">from</span> scapy<span class="token punctuation">.</span>all <span class="token keyword">import</span> <span class="token operator">*</span>
-<span class="token keyword">from</span> scapy<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>inet <span class="token keyword">import</span> IP<span class="token punctuation">,</span> TCP
-<span class="token keyword">from</span> scapy<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>l2 <span class="token keyword">import</span> <span class="token operator">*</span>
+<h1 id="python脚本修改"><a href="#python脚本修改" class="headerlink" title="python脚本修改"></a>python脚本修改</h1><h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> scapy.layers.inet <span class="keyword">import</span> IP, TCP</span><br><span class="line"><span class="keyword">from</span> scapy.layers.l2 <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen_eth_pcap</span>(<span class="params">pcap_obj, src_mac, dst_mac, file_path</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    生成带二层头的新包</span></span><br><span class="line"><span class="string">    :param pcap_obj: pcap文件对象</span></span><br><span class="line"><span class="string">    :param src_mac: 需要设置的源MAC</span></span><br><span class="line"><span class="string">    :param dst_mac: 需要设置的目的MAC</span></span><br><span class="line"><span class="string">    :param file_path: 文件输出路径</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    eth_list = []</span><br><span class="line">    <span class="keyword">for</span> each_packet <span class="keyword">in</span> pcap_obj:</span><br><span class="line">        <span class="built_in">print</span>(each_packet)</span><br><span class="line">        eth = Ether(src=src_mac, dst=dst_mac)/IP()/TCP()</span><br><span class="line">        eth[<span class="string">&#x27;IP&#x27;</span>] = each_packet[<span class="string">&#x27;IP&#x27;</span>]</span><br><span class="line">        eth[<span class="string">&#x27;TCP&#x27;</span>] = each_packet[<span class="string">&#x27;TCP&#x27;</span>]</span><br><span class="line">        <span class="built_in">print</span>(eth)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;-------------------------------------------&quot;</span>)</span><br><span class="line">        <span class="comment"># 写入pcap包</span></span><br><span class="line">        eth_list.append(eth)</span><br><span class="line"></span><br><span class="line">    wrpcap(file_path, eth_list)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">change_ip</span>(<span class="params">pcap_obj, src_ip, dst_ip</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改pcap包的原目的IP</span></span><br><span class="line"><span class="string">    :param pcap_obj: pcap文件对象</span></span><br><span class="line"><span class="string">    :param src_ip: 需要修改的源IP</span></span><br><span class="line"><span class="string">    :param dst_ip: 需要修改的目的IP</span></span><br><span class="line"><span class="string">    :return: 修改后的pcap对象</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> each_packet <span class="keyword">in</span> pcap_obj:</span><br><span class="line">        each_packet[<span class="string">&#x27;IP&#x27;</span>].src = src_ip</span><br><span class="line">        each_packet[<span class="string">&#x27;IP&#x27;</span>].dst = dst_ip</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pcap_obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">change_port</span>(<span class="params">pcap_obj, src_port, dst_port</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改pcap包的原目的端口</span></span><br><span class="line"><span class="string">    :param pcap_obj: pcap文件对象</span></span><br><span class="line"><span class="string">    :param src_port: 需要修改的源端口</span></span><br><span class="line"><span class="string">    :param dst_port: 需要修改的目的端口</span></span><br><span class="line"><span class="string">    :return: 修改后的pcap对象</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> each_packet <span class="keyword">in</span> pcap_obj:</span><br><span class="line">        each_packet[<span class="string">&#x27;TCP&#x27;</span>].sport = <span class="built_in">int</span>(src_port)</span><br><span class="line">        each_packet[<span class="string">&#x27;TCP&#x27;</span>].dport = <span class="built_in">int</span>(dst_port)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pcap_obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">o</span>(<span class="params">packets</span>):</span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> packets:</span><br><span class="line">        s = <span class="built_in">repr</span>(data)</span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    file_path_in = <span class="string">&quot;./1.pcap&quot;</span></span><br><span class="line">    file_path_out = <span class="string">&quot;./out.pcap&quot;</span></span><br><span class="line">    change_src_mac = <span class="string">&quot;00:50:56:C0:00:08&quot;</span></span><br><span class="line">    change_dst_mac = <span class="string">&quot;00:0C:29:D5:6C:43&quot;</span></span><br><span class="line">    change_src_ip = <span class="string">&quot;192.168.183.1&quot;</span></span><br><span class="line">    change_dst_ip = <span class="string">&quot;192.168.183.29&quot;</span></span><br><span class="line">    change_src_port = <span class="string">&quot;54617&quot;</span></span><br><span class="line">    change_dst_port = <span class="string">&quot;61516&quot;</span></span><br><span class="line"></span><br><span class="line">    pcap = rdpcap(file_path_in)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 先进行IP和端口的变换，因为不影响长度校验</span></span><br><span class="line">    pcap = change_ip(pcap, change_src_ip, change_dst_ip)</span><br><span class="line">    <span class="comment"># pcap = change_port(pcap, change_src_port, change_dst_port)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 进行MAC地址转换</span></span><br><span class="line">    <span class="comment"># 此处用的方案是构建一个有二层头的包，将loopback的IP、TCP层之后放到新的包中</span></span><br><span class="line">    gen_eth_pcap(pcap, change_src_mac, change_dst_mac, file_path_out)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-<span class="token keyword">def</span> <span class="token function">gen_eth_pcap</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_mac<span class="token punctuation">,</span> dst_mac<span class="token punctuation">,</span> file_path<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token triple-quoted-string string">"""
-    生成带二层头的新包
-    :param pcap_obj: pcap文件对象
-    :param src_mac: 需要设置的源MAC
-    :param dst_mac: 需要设置的目的MAC
-    :param file_path: 文件输出路径
-    :return: None
-    """</span>
-    eth_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span>each_packet<span class="token punctuation">)</span>
-        eth <span class="token operator">=</span> Ether<span class="token punctuation">(</span>src<span class="token operator">=</span>src_mac<span class="token punctuation">,</span> dst<span class="token operator">=</span>dst_mac<span class="token punctuation">)</span><span class="token operator">/</span>IP<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">/</span>TCP<span class="token punctuation">(</span><span class="token punctuation">)</span>
-        eth<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span> <span class="token operator">=</span> each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span>
-        eth<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span> <span class="token operator">=</span> each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span>eth<span class="token punctuation">)</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"-------------------------------------------"</span><span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true"># 写入pcap包</span>
-        eth_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>eth<span class="token punctuation">)</span>
-
-    wrpcap<span class="token punctuation">(</span>file_path<span class="token punctuation">,</span> eth_list<span class="token punctuation">)</span>
-
-
-<span class="token keyword">def</span> <span class="token function">change_ip</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_ip<span class="token punctuation">,</span> dst_ip<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token triple-quoted-string string">"""
-    修改pcap包的原目的IP
-    :param pcap_obj: pcap文件对象
-    :param src_ip: 需要修改的源IP
-    :param dst_ip: 需要修改的目的IP
-    :return: 修改后的pcap对象
-    """</span>
-    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
-        each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>src <span class="token operator">=</span> src_ip
-        each_packet<span class="token punctuation">[</span><span class="token string">'IP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dst <span class="token operator">=</span> dst_ip
-
-    <span class="token keyword">return</span> pcap_obj
-
-
-<span class="token keyword">def</span> <span class="token function">change_port</span><span class="token punctuation">(</span>pcap_obj<span class="token punctuation">,</span> src_port<span class="token punctuation">,</span> dst_port<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token triple-quoted-string string">"""
-    修改pcap包的原目的端口
-    :param pcap_obj: pcap文件对象
-    :param src_port: 需要修改的源端口
-    :param dst_port: 需要修改的目的端口
-    :return: 修改后的pcap对象
-    """</span>
-    <span class="token keyword">for</span> each_packet <span class="token keyword">in</span> pcap_obj<span class="token punctuation">:</span>
-        each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>sport <span class="token operator">=</span> int<span class="token punctuation">(</span>src_port<span class="token punctuation">)</span>
-        each_packet<span class="token punctuation">[</span><span class="token string">'TCP'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dport <span class="token operator">=</span> int<span class="token punctuation">(</span>dst_port<span class="token punctuation">)</span>
-
-    <span class="token keyword">return</span> pcap_obj
-
-
-<span class="token keyword">def</span> <span class="token function">o</span><span class="token punctuation">(</span>packets<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">for</span> data <span class="token keyword">in</span> packets<span class="token punctuation">:</span>
-        s <span class="token operator">=</span> repr<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
-
-
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
-    file_path_in <span class="token operator">=</span> <span class="token string">"./1.pcap"</span>
-    file_path_out <span class="token operator">=</span> <span class="token string">"./out.pcap"</span>
-    change_src_mac <span class="token operator">=</span> <span class="token string">"00:50:56:C0:00:08"</span>
-    change_dst_mac <span class="token operator">=</span> <span class="token string">"00:0C:29:D5:6C:43"</span>
-    change_src_ip <span class="token operator">=</span> <span class="token string">"192.168.183.1"</span>
-    change_dst_ip <span class="token operator">=</span> <span class="token string">"192.168.183.29"</span>
-    change_src_port <span class="token operator">=</span> <span class="token string">"54617"</span>
-    change_dst_port <span class="token operator">=</span> <span class="token string">"61516"</span>
-
-    pcap <span class="token operator">=</span> rdpcap<span class="token punctuation">(</span>file_path_in<span class="token punctuation">)</span>
-
-    <span class="token comment" spellcheck="true"># 先进行IP和端口的变换，因为不影响长度校验</span>
-    pcap <span class="token operator">=</span> change_ip<span class="token punctuation">(</span>pcap<span class="token punctuation">,</span> change_src_ip<span class="token punctuation">,</span> change_dst_ip<span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># pcap = change_port(pcap, change_src_port, change_dst_port)</span>
-
-    <span class="token comment" spellcheck="true"># 进行MAC地址转换</span>
-    <span class="token comment" spellcheck="true"># 此处用的方案是构建一个有二层头的包，将loopback的IP、TCP层之后放到新的包中</span>
-    gen_eth_pcap<span class="token punctuation">(</span>pcap<span class="token punctuation">,</span> change_src_mac<span class="token punctuation">,</span> change_dst_mac<span class="token punctuation">,</span> file_path_out<span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><blockquote>
 <p>这里用的python的scapy插件对pcap文件进行操作，之前尝试使用过dpkt，结果发现不能满足要求，原因是dpkt识别pcap文件时会直接将每个数据包的前12个字节识别成源目的mac，这样会导致解析loopback报文时直接失败，而scapy则可以识别出loopback头部</p>
 </blockquote>
@@ -1033,7 +951,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2022</span>
+                <span id="year">2019-2023</span>
             
             <span id="year">2019</span>
             <a href="/about" target="_blank">Aview</a>
